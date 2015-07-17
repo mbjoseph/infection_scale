@@ -1,0 +1,1 @@
+# infection_scale
