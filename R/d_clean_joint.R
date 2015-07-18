@@ -13,7 +13,7 @@ microparasites <- c("RVLOAD", "BDZE")
 
 pd1 <- pd[c("AssmtCode_1", "Year", "SiteCode", "HOSTSPECIES", 
             "STAGE", "SVL", "RIB")]
-pd1 <- subset(pd1, HOSTSPECIES == "PSRE")
+#pd1 <- subset(pd1, HOSTSPECIES == "PSRE")
 pd1 <- pd1[complete.cases(pd1), ] # remove any NA values
 pd1 <- droplevels(pd1)
 
@@ -92,7 +92,7 @@ plot(coord_d$Lon, coord_d$Lat)
 library(spdep)
 s_coord <- coordinates(coord_d[, c("Lon", "Lat")])
 # 2 km distance
-nbs <- dnearneigh(s_coord, d1=0, d2=5, longlat=T)
+nbs <- dnearneigh(s_coord, d1=0, d2=4, longlat=T)
 plot(nbs, coords=s_coord)
 (neighborhoods <- n.comp.nb(nbs))
 num_neigh <- neighborhoods$nc
@@ -117,3 +117,4 @@ for (i in 1:num_neigh){
 }
 plot(n_in_region, reg_rich)
 host_data <- host_data[order(host_data$num_site), ]
+
