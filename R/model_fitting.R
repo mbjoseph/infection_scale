@@ -3,48 +3,93 @@ source('R/d_clean_joint.R')
 source('R/helpers.R')
 library(rstan)
 
-stan_d <- list(n = nrow(pd1), 
-               nsite = length(unique(pd1$SiteCode)), 
-               nregion = max(coord_d$nbhood), 
-               site = pd1$numsite, 
-               region = region, 
-               y = pd1$RIB, 
-               nspec = length(unique(pd1$HOSTSPECIES)),
-               h_spec = as.numeric(pd1$HOSTSPECIES),
-               local_richness = host_data$LARVAMPRICHNOTAGR, 
-               region_richness = reg_rich)
+stan_d <- list(n = nrow(pd), 
+               nsite = max(pd$numsite), 
+               nregion = max(pd$region), 
+               site = pd$numsite, 
+               nyear = length(unique(pd$year)),
+               year = pd$year - min(pd$year) + 1,
+               region = pd$region, 
+               y = pd$rib, 
+               nspec = length(unique(pd$speciescode)),
+               h_spec = as.numeric(pd$speciescode),
+               local_richness = c(scale(pd$local_rich)), 
+               region_richness = c(scale(pd$reg_rich)), 
+               isd = pd$ISD)
 
-watch <- c("sigma_indiv", "sigma_site", "sigma_region", "alpha_region", 
-           "alpha_site", "alpha_0", "beta_local", "beta_region", 
-           "log_mu", "log_lik", "alpha_spec")
+watch <- c("eta_site", #"eta_region", 
+           "eta_species", #"eta_year",
+           "a0", 
+           "sigma_site", #"sigma_region", 
+           "sigma_species",# "sigma_year",
+           "sigma_indiv",
+           "beta_local", "beta_region", "beta_isd", "beta_isd2", 
+           "log_lik")
 
-m_init <- stan('R/mod.stan', data=stan_d, chains=1, iter=1, pars=watch)
-source('http://mc-stan.org/rstan/stan.R')
+m_init <- stan('R/isd.stan', data=stan_d, chains=1, iter=1, pars=watch)
 m_fit <- stan(fit=m_init, data=stan_d, pars=watch, chains=3, 
-              iter=1200, warmup=500)
+              iter=1000, cores=3)
 rm(stan)
 library(rstan)
+traceplot(m_fit, pars=watch[-c(1, length(watch))], inc_warmup=F)
+waic(m_fit)
 
-traceplot(m_fit, 
-          pars = c("sigma_indiv", "sigma_site", "sigma_region", "alpha_region", 
-                   "alpha_0", "beta_local", "beta_region", "alpha_spec"),
-          inc_warmup=T)
-
+library(ggmcmc)
+ggd <- ggs(m_fit)
+#ggs_caterpillar(ggd, 'eta_year')
+ggs_caterpillar(ggd, 'eta_species')
+#ggs_caterpillar(ggd, 'eta_region')
+ggs_caterpillar(ggd, 'eta_site')
 
 post <- rstan::extract(m_fit)
-par(mfrow=c(1, 2), mar=c(5, 4, 4, 2) + 0.1)
-br <- seq(-10, 10, .2)
-hist(post$beta_local, breaks=br, main="Local richness effect", 
-     xlab="Value", ylab="Posterior density")
-hdi_local <- HDI(post$beta_local)
-abline(v=hdi_local, lty=2, col="red")
+nspec <- stan_d$nspec
 
-hist(post$beta_region, breaks=br, main="Regional richness effect", 
-     xlab="Value", ylab="Posterior density")
-hdi_region <- HDI(post$beta_region)
-abline(v=hdi_region, lty=2, col="red")
-par(mfrow=c(1, 1))
+par(mfrow=c(1, 3))
+lims <- range(c(post$beta_local, post$beta_region, post$beta_isd))
+br <- seq(lims[1], lims[2], length.out=30)
+hist(post$beta_local, breaks=br, 
+     main="Effect of local richness")
+abline(v=0, lty=2, col="red")
+hist(post$beta_region, breaks=br, 
+     main="Effect of regional richness")
+abline(v=0, lty=2, col="red")
+hist(post$beta_isd, breaks=br, 
+     main="Effect of infected snail density")
+abline(v=0, lty=2, col="red")
 
+
+# plot species specific intercepts
+par(mfrow=c(2, 3), mar=c(5, 4, 4, 2) + 0.1)
+for (i in 1:nspec){
+  hist(post$eta_species[, i], breaks=40, 
+       main=paste("Species intercept", levels(pd$speciesname)[i]),
+       xlab="Value", ylab="Posterior density")
+  hdi_local <- HDI(post$beta_spec[, i, 1])
+  abline(v=hdi_local, lty=2, col="red")
+  abline(v=0, lty=2, lwd=2)
+}
+
+# plot responses to local richness
+par(mfrow=c(2, 3), mar=c(5, 4, 4, 2) + 0.1)
+for (i in 1:nspec){
+  hist(post$beta_spec[, i, 2], breaks=40, 
+       main=paste("Local richness effect", levels(pd1$HOSTSPECIES)[i]),       xlab="Value", ylab="Posterior density")
+  hdi_local <- HDI(post$beta_spec[, i, 2])
+  abline(v=hdi_local, lty=2, col="red")
+  abline(v=0, lty=2, lwd=2)
+}
+
+
+# plot responses to regional richness
+par(mfrow=c(2, 3), mar=c(5, 4, 4, 2) + 0.1)
+for (i in 1:nspec){
+  hist(post$beta_spec[, i, 3], breaks=40, 
+       main=paste("Regional richness effect", levels(pd1$HOSTSPECIES)[i]),
+       xlab="Value", ylab="Posterior density")
+  hdi_local <- HDI(post$beta_spec[, i, 3])
+  abline(v=hdi_local, lty=2, col="red")
+  abline(v=0, lty=2, lwd=2)
+}
 
 waic_fit <- waic(m_fit)
 
@@ -56,3 +101,53 @@ abline(0, 1, lty=2)
 plot(stan_d$y, stan_d$y - med_mu)
 abline(h=0, lty=2)
 
+
+# variance decomposition
+par(mfrow=c(2, 3))
+br <- seq(0, 13, length.out=40)
+xvals <- seq(0, 13, length.out=100)
+hist(post$sigma_region, breaks=br, main="Among region sd", freq=F)
+lines(x=xvals, y=dcauchy(xvals, 0, 3))
+hist(post$sigma_site, breaks=br, main="Among site sd", freq=F)
+lines(x=xvals, y=dcauchy(xvals, 0, 3))
+hist(post$sigma_spec[, 1], breaks=br, main="Among host species sd", freq=F)
+lines(x=xvals, y=dcauchy(xvals, 0, 3))
+hist(post$sigma_spec[, 2], breaks=br, main="Among host species sd", freq=F)
+lines(x=xvals, y=dcauchy(xvals, 0, 3))
+hist(post$sigma_spec[, 3], breaks=br, main="Among host species sd", freq=F)
+lines(x=xvals, y=dcauchy(xvals, 0, 3))
+hist(post$sigma_indiv, breaks=br, main="Among individual sd", freq=F)
+lines(x=xvals, y=dcauchy(xvals, 0, 3))
+par(mfrow=c(1, 1))
+
+
+
+
+
+
+
+
+# alternatively, fit with lme4
+pd1$region <- region[pd1$numsite]
+pd1$lon <- coord_d[order(coord_d$site), "Lon"][pd1$numsite]
+pd1$lat <- coord_d[order(coord_d$site), "Lat"][pd1$numsite]
+plot(pd1$lon, pd1$lat, col=pd1$region) # verify region ids correct
+pd1$local_rich <- host_data$LARVAMPRICH[pd1$numsite]
+pd1$regional_rich <- reg_rich[pd1$region]
+
+# generate individual id's for hosts
+pd1$id <- rep(NA, nrow(pd1))
+for (i in 1:length(unique(pd1$SiteCode))){
+  indx <- which(pd1$numsite == i)
+  numseq <- 1:length(indx)
+  pd1$id[indx] <- paste(pd1$SiteCode[indx], numseq, sep='_')
+}
+
+pd1$id <- as.factor(pd1$id)
+
+library(lme4)
+pd1$c_reg <- scale(pd1$regional_rich)
+pd1$l_reg <- scale(pd1$local_rich)
+mod <- glmer(RIB ~ l_reg + c_reg + 
+               (1|SiteCode) + (1 + c_reg|HOSTSPECIES) + (1|id), 
+             family='poisson', data=pd1)
