@@ -15,16 +15,16 @@ stan_d <- list(n = nrow(pd),
                h_spec = as.numeric(pd$speciescode),
                local_richness = c(scale(pd$local_rich)), 
                region_richness = c(scale(pd$reg_rich)), 
-               isd = pd$ISD)
+               isd = c(scale(log(pd$ISD + .1))))
 
 watch <- c("eta_site", #"eta_region", 
-           "eta_species", #"eta_year",
+           #"eta_species", #"eta_year",
            "a0", 
            "sigma_site", #"sigma_region", 
-           "sigma_species",# "sigma_year",
+           #"sigma_species",# "sigma_year",
            "sigma_indiv",
-           "beta_local", "beta_region", "beta_isd", "beta_isd2", 
-           "log_lik")
+           "beta_local", "beta_region", "beta_isd")#, 
+#           "log_lik")
 
 m_init <- stan('R/isd.stan', data=stan_d, chains=1, iter=1, pars=watch)
 m_fit <- stan(fit=m_init, data=stan_d, pars=watch, chains=3, 
@@ -151,3 +151,5 @@ pd1$l_reg <- scale(pd1$local_rich)
 mod <- glmer(RIB ~ l_reg + c_reg + 
                (1|SiteCode) + (1 + c_reg|HOSTSPECIES) + (1|id), 
              family='poisson', data=pd1)
+
+
