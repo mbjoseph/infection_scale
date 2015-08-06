@@ -77,35 +77,16 @@ for (i in 1:length(levels(pd$siteyear))){
 
 
 pd$site <- as.character(pd$sitecode)
-snails$SiteName[snails$SiteName == "Barn"] <- "BARN"
-pd$site[pd$site == "Barn"] <- "BARN"
-snails$SiteName[snails$SiteName == "Yerba Buena"] <- "YBBA"
-snails$SiteName[snails$SiteName == "Frog"] <- "FROG"
-pd$site[pd$site == "Frog"] <- "FROG"
-snails$SiteName[snails$SiteName == "Hidden"] <- "HIDDEN"
-pd$site[pd$site == "Hidden"] <- "HIDDEN"
-snails$SiteName[snails$SiteName=="WestWing"] <- "WESTWING"
-snails$SiteName[snails$SiteName=="Barn"] <- "BARN"
-snails$SiteName[snails$SiteName=="Frog"] <- "FROG"
-snails$SiteName[snails$SiteName=="HeronGCP"] <- "HERONGCP"
-snails$SiteName[snails$SiteName=="Hidden"] <- "HIDDEN"
-snails$SiteName[snails$SiteName=="Ca-SF31"] <- "CA-SF31"
-snails$SiteName[snails$SiteName=="ca-SF85a"] <- "CA-SF85A"
-snails$SiteName[snails$SiteName=="Ca-SF101"] <- "CA-SF101"
-snails$SiteName[snails$SiteName=="Ca-SF25"] <- "CA-SF25"
-snails$SiteName[snails$SiteName=="Ca-SF79"] <- "CA-SF79"
-snails$SiteName[snails$SiteName=="EagleGCP"] <- "EAGLEGCP"
-snails$SiteName[snails$SiteName=="Beaver"] <- "BEAVER"
 
-setdiff(pd$site, snails$SiteName)
-intersect(pd$site, snails$SiteName)
+setdiff(pd$sitename, snails$SiteName)
+intersect(pd$sitename, snails$SiteName)
 
-pd <- subset(pd, site %in% snails$SiteName)
+pd <- subset(pd, sitename %in% snails$SiteName)
 pd <- droplevels(pd)
-snails <- subset(snails, SiteName %in% pd$site)
+snails <- subset(snails, SiteName %in% pd$sitename)
 snails <- droplevels(snails)
 
-snails$num_site <- as.numeric(as.factor(snails$SiteName))
+
 
 # classify sites into regions based on spatial neighborhoods
 coord_d <- read.csv("data/powell.csv")
@@ -115,6 +96,12 @@ matching_sites <- pd$sitecode %in% coord_d$sitename
 
 # print sites that don't match
 unique(pd$sitecode[!matching_sites])
+
+pd$sitecode[pd$sitecode == "Barn"] <- "BARN"
+pd$sitecode[pd$sitecode == "EagleGCP"] <- "EAGLEGCP"
+pd$sitecode[pd$sitecode == "Frog"] <- "FROG"
+pd$sitecode[pd$sitecode == "Hidden"] <- "HIDDEN"
+pd$sitecode[pd$sitecode == "Ca-SF79"] <- "CA-SF79"
 
 
 coord_d$sitename[coord_d$sitename=="WestWing"] <- "WESTWING"
@@ -130,16 +117,21 @@ coord_d$sitename[coord_d$sitename=="Ca-SF79"] <- "CA-SF79"
 coord_d$sitename[coord_d$sitename=="EagleGCP"] <- "EAGLEGCP"
 coord_d$sitename[coord_d$sitename=="Beaver"] <- "BEAVER"
 
-matching_sites <- pd$site %in% coord_d$sitename
-unique(pd$site[!matching_sites])
+matching_sites <- pd$sitecode[pd$sitecode %in% coord_d$sitename]
+double_matches <- snails$SiteCode_1[snails$SiteCode_1 %in% matching_sites]
+length(unique(double_matches))
+# unique(pd$sitecode[!matching_sites])
+matches <- unique(double_matches)
 
 coord_d$fsite <- as.factor(coord_d$sitename)
 
-coord_d <- subset(coord_d, sitename %in% unique(pd$site[matching_sites]))
+coord_d <- subset(coord_d, sitename %in% matches)
 
 coord_d <- droplevels(coord_d)
-pd <- subset(pd, site %in% unique(pd$site[matching_sites]))
+pd <- subset(pd, site %in% matches)
 pd <- droplevels(pd)
+snails <- subset(snails, SiteCode_1 %in% matches)
+snails <- droplevels(snails)
 
 pd$fsite <- as.factor(pd$site)
 
@@ -152,8 +144,9 @@ elev <- scale(elev)
 
 coord_d <- subset(coord_d, !duplicated(coord_d$sitename))
 
+par(mfrow=c(1, 2))
 plot(coord_d$Lon, coord_d$Lat)
-points(coord_d$Lon, coord_d$Lat, col="red", pch=2)
+#points(coord_d$Lon, coord_d$Lat, col="red", pch=2)
 
 # define neighborhoods
 library(spdep)
@@ -175,18 +168,20 @@ region <- coord_d$nbhood[order(coord_d$site)]
 host_cols <- names(snails)[c(57:63)]
 
 nyear <- length(unique(pd$year))
-reg_rich <- array(NA, dim=c(num_neigh, nyear))
-n_sampled <- array(dim=c(num_neigh, nyear))
+# assume regional richness is constant across years, otherwise run into issues 
+# with uneven sampling, and lack of detection of species
+reg_rich <- array(NA, dim=c(num_neigh))
+n_sampled <- array(dim=c(num_neigh))
 n_in_region <- rep(NA, num_neigh)
+
+snails$num_site <- as.numeric(as.factor(snails$SiteName))
+
 for (i in 1:num_neigh){
-  for (j in 1:nyear){
-    sites_in_region <- which(region == i)
-    n_in_region[i] <- length(sites_in_region)
-    subd <- snails[(snails$num_site %in% sites_in_region) & 
-                     (snails$AssmtYear_1 == (2011 + j)), host_cols]
-    n_sampled[i, j] <- nrow(subd)
-    reg_rich[i, j] <- sum(colSums(subd) > 0)
-  }
+  sites_in_region <- which(region == i)
+  n_in_region[i] <- length(sites_in_region)
+  subd <- snails[(snails$num_site %in% sites_in_region), host_cols]
+  n_sampled[i] <- nrow(subd)
+  reg_rich[i] <- sum(colSums(subd) > 0)
 }
 plot(jitter(c(n_sampled), .5), c(reg_rich))
 #snails <- snails[order(snails$num_site), ]
@@ -198,13 +193,16 @@ pd$reg_rich <- NA
 pd$ISD <- NA
 snails$ISD <- snails$`HELI_ SW_1` * snails$HELIRIB_3
 for (i in 1:nrow(pd)){
-  pd$reg_rich[i] <- reg_rich[pd$region[i], pd$year[i] - 2011]
+  pd$reg_rich[i] <- reg_rich[pd$region[i]]
   snail_row <- which(snails$num_site == pd$numsite[i] & 
                        snails$AssmtYear_1 == pd$year[i])
   if (length(snail_row) == 0){
     next
   } else {
     pd$ISD[i] <- snails$ISD[snail_row]
+    if (length(snail_row) != 1){
+      print(paste("i =", i, ", length of snail_row:", length(snail_row)))
+    }
   }
 }
 plot(jitter(pd$reg_rich), jitter(pd$local_rich))
@@ -215,3 +213,16 @@ pd$numsite <- as.numeric(pd$fsite)
 
 # calculate number of snails infected
 snails$num_infected <- snails$HELDISS3 * snails$HELIRIB_3
+
+# is Rib present in all regions? 
+library(plyr)
+ddply(pd, c("region", "year"), 
+      summarise, 
+      rib_pres = any(rib > 0), 
+      nsites = length(site))
+
+library(lme4)
+mod <- glmer(rib ~ (1|Dissection) + (1|siteyear) + 
+               (1|speciescode) + ISD + local_rich + reg_rich, family='poisson', 
+             data=pd)
+summary(mod)
