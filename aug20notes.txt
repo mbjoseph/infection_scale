@@ -1,0 +1,14 @@
+Joint influences of host diversity and spatial scale or number of sites in a region
+
+Disagreement stems from different scales:
+- dilution depends on species intxns = local scales
+@ larger scales, expect other processes that swamp out effects of local intxns
+
+Birds as a process - what sites are visited
+
+Colonization vs. transmission & abundance
+
+Region richness -> rib occurrence & mean intensity
+
+Intxn between ISD and regional richness:
+- does colonization effect persist & transmission effect disappear?
