@@ -6,7 +6,7 @@ library(maps)
 library(scales)
 
 ## Define spatial neighbors -----------------------
-agg_dist <- 5
+agg_dist <- 2
 nbs <- dnearneigh(s_coord, d1 = 0, d2 = agg_dist, longlat = T)
 par(mfrow=c(1, 1))
 plot(nbs, coords=s_coord)
@@ -109,6 +109,16 @@ snail_density_df <- melt(snails,
                                    'region'), 
                          measure.vars = c('HELI_ SW_1', 'HELI_ SE_1'))
 
+snail_density_df <- snails[!duplicated(snails$AssmtCode_1), 
+                           c('fsite', 'AssmtYear_1', 
+                             'region', 'HELI_ SW_1', 'HELI_ SE_1')]
+snail_density_df$heli_sweep <- c(scale(log(1 + snail_density_df$`HELI_ SW_1`)))
+snail_density_df$heli_seine <- c(scale(log(1 + snail_density_df$`HELI_ SE_1`)))
+
+with(snail_density_df, {
+  plot(heli_seine, heli_sweep)
+})
+
 snails$heli_infected <- round(snails$HELDISS3 * snails$HELIRIB_3)
 
 # Extract snail infection data
@@ -124,7 +134,7 @@ all(levels(pd$fsite) == levels(snail_inf_df$fsite))
 # create vector of length nsite that describes regional identity
 reg <- pd[!duplicated(pd$fsite), 'region']
 
-# Bundle data for stan ---------------------------------------------
+# Bundle data for stan ---------------------------------
 stan_d <- list(n = nrow(pd), 
                nsite = length(levels(pd$fsite)), 
                nregion = max(pd$region), 
@@ -137,7 +147,11 @@ stan_d <- list(n = nrow(pd),
                nsnail = nrow(snail_inf_df),
                y_snail = snail_inf_df$heli_infected, 
                k_snail = snail_inf_df$HELDISS3, 
-               site_snail = as.numeric(snail_inf_df$fsite))
+               site_snail = as.numeric(snail_inf_df$fsite), 
+               n_snail_density = nrow(snail_density_df), 
+               snail_density1 = snail_density_df$heli_sweep, 
+               snail_density2 = snail_density_df$heli_seine, 
+               snail_den_site = as.numeric(snail_density_df$fsite))
 
 watch <- c("eta_site", 
            "eta_year",
@@ -149,11 +163,19 @@ watch <- c("eta_site",
            "p_site",
            "sigma_p", 
            "p_region", 
-           "sigma_p_region")
+           "sigma_p_region", 
+           'd_site', 
+           'sigma_snail_density', 
+           'beta_y', 
+           'd_region', 
+           'sigma_d_region', 
+           'beta_isd', 
+           'beta_intxn', 
+           'mu_den')
 
 m_init <- stan('R/isd.stan', data=stan_d, chains=1, iter=1, pars=watch)
 m_fit <- stan(fit=m_init, data=stan_d, pars=watch, chains=3, 
-              iter=500, cores=3)
+              iter=1000, cores=3, warmup = 400)
 
 traceplot(m_fit, pars=watch, inc_warmup=T)
 waic(m_fit)
@@ -164,9 +186,23 @@ ggs_caterpillar(ggd, 'eta_year')
 ggs_caterpillar(ggd, 'eta_site')
 ggs_caterpillar(ggd, 'p_site')
 ggs_caterpillar(ggd, 'p_region')
+ggs_caterpillar(ggd, 'd_site')
+ggs_caterpillar(ggd, 'd_region')
 
 post <- rstan::extract(m_fit)
-nspec <- stan_d$nspec
+
+par(mfrow=c(3, 1))
+v <- unlist(post[c('beta_rich', 'beta_isd', 'beta_intxn')])
+br <- seq(min(v), max(v), length.out=60)
+hist(post$beta_rich, breaks=br, 
+     main=paste('Fixed effs: agg. dist. =', agg_dist, "km"))
+abline(v=HDI(post$beta_rich), lty=2)
+hist(post$beta_isd, breaks=br, main="")
+abline(v=HDI(post$beta_isd), lty=2)
+hist(post$beta_intxn, breaks=br, main="")
+abline(v=HDI(post$beta_intxn), lty=2)
+
+
 
 par(mfrow=c(2, 2))
 lims <- range(c(post$beta_local, post$beta_region, post$beta_isd))
@@ -184,72 +220,6 @@ hist(post$beta_isd2, breaks=br,
      main="Effect of sq(infected snail density)")
 abline(v=0, lty=2, col="red")
 
-# plot relationship between isd and mu_infection
-n <- 50
-xvals <- seq(min(stan_d$isd), max(stan_d$isd), length.out=n)
-calc_eff <- function(x, post){
-  post$beta_isd * x + post$beta_isd2 * x^2
-}
-mu_eff <- array(dim=c(n, length(post$a0)))
-for (i in 1:n){
-  mu_eff[i, ] <- calc_eff(xvals[i], post)
-}
-
-med_eff <- apply(mu_eff, 1, median)
-hdi_eff <- apply(mu_eff, 1, HDI)
-
-par(mfrow=c(1, 1))
-plot(xvals, med_eff, type='l', ylim=range(mu_eff))
-lines(xvals, hdi_eff[1, ], lty=2)
-lines(xvals, hdi_eff[2, ], lty=2)
-rug(stan_d$isd)
-
-
-
-
-
-# plot species specific intercepts
-par(mfrow=c(2, 3), mar=c(5, 4, 4, 2) + 0.1)
-for (i in 1:nspec){
-  hist(post$eta_species[, i], breaks=40, 
-       main=paste("Species intercept", levels(pd$speciesname)[i]),
-       xlab="Value", ylab="Posterior density")
-  hdi_local <- HDI(post$beta_spec[, i, 1])
-  abline(v=hdi_local, lty=2, col="red")
-  abline(v=0, lty=2, lwd=2)
-}
-
-# plot responses to local richness
-par(mfrow=c(2, 3), mar=c(5, 4, 4, 2) + 0.1)
-for (i in 1:nspec){
-  hist(post$beta_spec[, i, 2], breaks=40, 
-       main=paste("Local richness effect", levels(pd1$HOSTSPECIES)[i]),       xlab="Value", ylab="Posterior density")
-  hdi_local <- HDI(post$beta_spec[, i, 2])
-  abline(v=hdi_local, lty=2, col="red")
-  abline(v=0, lty=2, lwd=2)
-}
-
-
-# plot responses to regional richness
-par(mfrow=c(2, 3), mar=c(5, 4, 4, 2) + 0.1)
-for (i in 1:nspec){
-  hist(post$beta_spec[, i, 3], breaks=40, 
-       main=paste("Regional richness effect", levels(pd1$HOSTSPECIES)[i]),
-       xlab="Value", ylab="Posterior density")
-  hdi_local <- HDI(post$beta_spec[, i, 3])
-  abline(v=hdi_local, lty=2, col="red")
-  abline(v=0, lty=2, lwd=2)
-}
-
-waic_fit <- waic(m_fit)
-
-str(post)
-med_mu <- exp(apply(post$log_mu, 2, median))
-plot(med_mu, stan_d$y)
-abline(0, 1, lty=2)
-
-plot(stan_d$y, stan_d$y - med_mu)
-abline(h=0, lty=2)
 
 
 # variance decomposition
