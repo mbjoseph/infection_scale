@@ -26,48 +26,47 @@ parameters {
   real a0;
   vector[nsite] eta_siteR;
   real<lower=0> sigma_site;
-  //vector[nregion] eta_regionR;
-  //real<lower=0> sigma_region;
-  //vector[nspec] eta_speciesR;
-  //real<lower=0> sigma_species;
-  //vector[nyear] eta_yearR;
-  //real<lower=0> sigma_year;
+  vector[nregion] eta_regionR;
+  real<lower=0> sigma_region;
+  vector[nspec] eta_speciesR;
+  real<lower=0> sigma_species;
   vector[n] eta_indivR;
   real<lower=0> sigma_indiv;
+  vector[nyear] eta_year;
   real beta_local;
   real beta_region;
   real beta_isd;
+  real beta_intxn;
 }
 transformed parameters {
   vector[nsite] eta_site;
-  //vector[nregion] eta_region;
-  //vector[nspec] eta_species;
-  //vector[nyear] eta_year;
+  vector[nregion] eta_region;
+  vector[nspec] eta_species;
   vector[n] eta_indiv;
   vector[n] log_mu;
   
   eta_site <- eta_siteR * sigma_site;
-  //eta_region <- eta_regionR * sigma_region;
-  //eta_species <- eta_speciesR * sigma_species;
-  //eta_year <- eta_yearR * sigma_year;
+  eta_region <- eta_regionR * sigma_region;
+  eta_species <- eta_speciesR * sigma_species;
   eta_indiv <- eta_indivR * sigma_indiv;
 
 { // temp scope
   vector[n] site_eff;
-  //vector[n] spec_eff;
-  //vector[n] reg_eff;
-  //vector[n] year_eff;
+  vector[n] spec_eff;
+  vector[n] reg_eff;
+  vector[n] year_eff;
   for (i in 1:n){
     site_eff[i] <- eta_site[site[i]];
-    //spec_eff[i] <- eta_species[h_spec[i]];
-    //reg_eff[i] <- eta_region[region[i]];
-    //year_eff[i] <- eta_year[year[i]];
+    spec_eff[i] <- eta_species[h_spec[i]];
+    reg_eff[i] <- eta_region[region[i]];
+    year_eff[i] <- eta_year[year[i]];
   }
-  log_mu <- site_eff //+ reg_eff
-              //+ spec_eff// + year_eff 
+  log_mu <- site_eff + reg_eff
+              + spec_eff + year_eff 
               + a0
               + beta_local * local_richness 
               + beta_isd * isd
+              + beta_intxn * isd .* local_richness
               + beta_region * region_richness + eta_indiv;
 }
 }
@@ -77,22 +76,22 @@ model {
   beta_local ~ normal(0, 3);
   beta_region ~ normal(0, 3);
   beta_isd ~ normal(0, 3);
+  beta_intxn ~ normal(0, 3);
   sigma_site ~ normal(0, 3);
-  //sigma_region ~ normal(0, 1);
-  //sigma_species ~ normal(0, 3);
-  //sigma_year ~ normal(0, 1);
+  sigma_region ~ normal(0, 1);
+  sigma_species ~ normal(0, 3);
   eta_siteR ~ normal(0, 1);
-  //eta_regionR ~ normal(0, 1);
-  //eta_speciesR ~ normal(0, 1);
-  //eta_yearR ~ normal(0, 1);
+  eta_regionR ~ normal(0, 1);
+  eta_speciesR ~ normal(0, 1);
+  eta_year ~ normal(0, 1);
   eta_indivR ~ normal(0, 1);
   y ~ poisson_log(log_mu);
 }
 
-//generated quantities {
-//  vector[n] log_lik;
-//  
-//  for (i in 1:n){
-//    log_lik[i] <- poisson_log_log(y[i], log_mu[i]);
-//  }
-//}
+generated quantities {
+  vector[n] log_lik;
+  
+  for (i in 1:n){
+    log_lik[i] <- poisson_log_log(y[i], log_mu[i]);
+  }
+}
