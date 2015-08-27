@@ -6,7 +6,7 @@ library(maps)
 library(scales)
 
 ## Define spatial neighbors -----------------------
-agg_dist <- 2
+agg_dist <- 0
 nbs <- dnearneigh(s_coord, d1 = 0, d2 = agg_dist, longlat = T)
 par(mfrow=c(1, 1))
 plot(nbs, coords=s_coord)
@@ -239,8 +239,6 @@ lines(x=xvals, y=dcauchy(xvals, 0, 3))
 hist(post$sigma_indiv, breaks=br, main="Among individual sd", freq=F)
 lines(x=xvals, y=dcauchy(xvals, 0, 3))
 par(mfrow=c(1, 1))
-
-
 
 
 

@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="986.375"
+   height="837.25562"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="conc2.pdf">
+  <defs
+     id="defs4">
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend"
+       style="overflow:visible">
+      <path
+         id="path3912"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)"
+         inkscape:connector-curvature="0" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.62866848"
+     inkscape:cx="606.05994"
+     inkscape:cy="408.22585"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     fit-margin-top="15"
+     fit-margin-left="15"
+     fit-margin-right="15"
+     fit-margin-bottom="15"
+     inkscape:window-width="1600"
+     inkscape:window-height="876"
+     inkscape:window-x="0"
+     inkscape:window-y="1080"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0.25000882,-197.93188)">
+    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.69999999;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3005"
+       width="103.39313"
+       height="54.877892"
+       x="15.111303"
+       y="213.28719" />
+    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.69999999;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3005-3"
+       width="103.39313"
+       height="54.877892"
+       x="20.678625"
+       y="300.37601" />
+    <text
+       xml:space="preserve"
+       style="font-size:14px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="67.603195"
+       y="237.14714"
+       id="text2985"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan2987"
+         x="69.831711"
+         y="237.14714">Snail density </tspan><tspan
+         sodipodi:role="line"
+         x="67.603195"
+         y="254.64714"
+         id="tspan2989">in seines</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:14px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="68.398529"
+       y="318.271"
+       id="text2991"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan2993"
+         x="68.398529"
+         y="318.271">Snail density</tspan><tspan
+         sodipodi:role="line"
+         x="68.398529"
+         y="335.771"
+         id="tspan2995">in sweeps</tspan></text>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot2997"
+       style="font-size:14px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><flowRegion
+         id="flowRegion2999"><rect
+           id="rect3001"
+           width="105.77912"
+           height="78.737846"
+           x="-79.533173"
+           y="247.48645" /></flowRegion><flowPara
+         id="flowPara3003"></flowPara></flowRoot>    <path
+       sodipodi:type="arc"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.89999998;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path3795"
+       sodipodi:cx="353.52496"
+       sodipodi:cy="339.34726"
+       sodipodi:rx="66.410194"
+       sodipodi:ry="64.024208"
+       d="m 419.93516,339.34726 c 0,35.35959 -29.73286,64.02421 -66.4102,64.02421 -36.67733,0 -66.41019,-28.66462 -66.41019,-64.02421 0,-35.35959 29.73286,-64.02421 66.41019,-64.02421 35.74081,0 65.07142,27.27004 66.36658,61.70412"
+       sodipodi:start="0"
+       sodipodi:end="6.2469397"
+       sodipodi:open="true"
+       transform="translate(-86.691161,-58.059218)" />
+    <text
+       xml:space="preserve"
+       style="font-size:14px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="268.82211"
+       y="276.11838"
+       id="text3797"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3799"
+         x="268.82211"
+         y="276.11838">Snail density</tspan><tspan
+         sodipodi:role="line"
+         x="268.82211"
+         y="293.61838"
+         id="tspan3801">at site</tspan></text>
+    <path
+       sodipodi:type="arc"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.89999998;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path3795-9"
+       sodipodi:cx="353.52496"
+       sodipodi:cy="339.34726"
+       sodipodi:rx="66.410194"
+       sodipodi:ry="64.024208"
+       d="m 419.93516,339.34726 c 0,35.35959 -29.73286,64.02421 -66.4102,64.02421 -36.67733,0 -66.41019,-28.66462 -66.41019,-64.02421 0,-35.35959 29.73286,-64.02421 66.41019,-64.02421 35.74081,0 65.07142,27.27004 66.36658,61.70412"
+       sodipodi:start="0"
+       sodipodi:end="6.2469397"
+       sodipodi:open="true"
+       transform="translate(37.1428,86.02059)" />
+    <text
+       xml:space="preserve"
+       style="font-size:14px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="392.25845"
+       y="421.3912"
+       id="text3825"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3827"
+         x="392.25845"
+         y="421.3912">Snail density</tspan><tspan
+         sodipodi:role="line"
+         x="392.25845"
+         y="438.8912"
+         id="tspan3829">in region</tspan></text>
+    <path
+       sodipodi:type="arc"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.89999998;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path3795-0"
+       sodipodi:cx="353.52496"
+       sodipodi:cy="339.34726"
+       sodipodi:rx="66.410194"
+       sodipodi:ry="64.024208"
+       d="m 419.93516,339.34726 c 0,35.35959 -29.73286,64.02421 -66.4102,64.02421 -36.67733,0 -66.41019,-28.66462 -66.41019,-64.02421 0,-35.35959 29.73286,-64.02421 66.41019,-64.02421 35.74081,0 65.07142,27.27004 66.36658,61.70412"
+       sodipodi:start="0"
+       sodipodi:end="6.2469397"
+       sodipodi:open="true"
+       transform="translate(352.82993,-58.576573)" />
+    <text
+       xml:space="preserve"
+       style="font-size:14px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="711.97876"
+       y="269.52298"
+       id="text3849"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3851"
+         x="711.97876"
+         y="269.52298">Rib prevalence</tspan><tspan
+         sodipodi:role="line"
+         x="714.20728"
+         y="287.02298"
+         id="tspan3853">in snails, </tspan><tspan
+         sodipodi:role="line"
+         x="711.97876"
+         y="304.52298"
+         id="tspan3855">site level</tspan></text>
+    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.89999998;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3857"
+       width="139.47134"
+       height="76.484291"
+       x="831.20422"
+       y="227.90654" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3859"
+       style="font-size:14px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><flowRegion
+         id="flowRegion3861"><rect
+           id="rect3863"
+           width="112.4769"
+           height="46.115528"
+           x="846.95099"
+           y="245.90285" /></flowRegion><flowPara
+         id="flowPara3865">Raw snail</flowPara><flowPara
+         id="flowPara3869">infection data</flowPara></flowRoot>    <path
+       sodipodi:type="arc"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.89999998;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path3795-0-2"
+       sodipodi:cx="353.52496"
+       sodipodi:cy="339.34726"
+       sodipodi:rx="66.410194"
+       sodipodi:ry="64.024208"
+       d="m 419.93516,339.34726 c 0,35.35959 -29.73286,64.02421 -66.4102,64.02421 -36.67733,0 -66.41019,-28.66462 -66.41019,-64.02421 0,-35.35959 29.73286,-64.02421 66.41019,-64.02421 35.74081,0 65.07142,27.27004 66.36658,61.70412"
+       sodipodi:start="0"
+       sodipodi:end="6.2469397"
+       sodipodi:open="true"
+       transform="translate(239.22827,79.770007)" />
+    <text
+       xml:space="preserve"
+       style="font-size:14px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="598.37708"
+       y="407.86957"
+       id="text3849-8"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3851-5"
+         x="598.37708"
+         y="407.86957">Rib prevalence</tspan><tspan
+         sodipodi:role="line"
+         x="600.60559"
+         y="425.36957"
+         id="tspan3853-3">in snails, </tspan><tspan
+         sodipodi:role="line"
+         x="598.37708"
+         y="442.86957"
+         id="tspan3855-9">region level</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+       d="m 635.49445,366.25313 28.11923,-33.74307"
+       id="path3903"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+       d="M 772.71627,275.14684 827.82994,269.523"
+       id="path4349"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+       d="m 341.92976,377.50082 c -4.49908,-2.24954 -34.86784,-46.11553 -34.86784,-46.11553"
+       id="path4533"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+       d="M 197.95933,280.77069 119.22551,238.02947"
+       id="path4717"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+       d="m 202.45841,301.01653 -77.60906,28.11922"
+       id="path4901"
+       inkscape:connector-curvature="0" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.89999998;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path3795-9-1"
+       sodipodi:cx="353.52496"
+       sodipodi:cy="339.34726"
+       sodipodi:rx="66.410194"
+       sodipodi:ry="64.024208"
+       d="m 419.93516,339.34726 c 0,35.35959 -29.73286,64.02421 -66.4102,64.02421 -36.67733,0 -66.41019,-28.66462 -66.41019,-64.02421 0,-35.35959 29.73286,-64.02421 66.41019,-64.02421 35.74081,0 65.07142,27.27004 66.36658,61.70412"
+       sodipodi:start="0"
+       sodipodi:end="6.2469397"
+       sodipodi:open="true"
+       transform="translate(143.62291,255.23397)" />
+    <text
+       xml:space="preserve"
+       style="font-size:14px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="498.27264"
+       y="581.08398"
+       id="text5103"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5105"
+         x="498.27264"
+         y="581.08398">Regional mean</tspan><tspan
+         sodipodi:role="line"
+         x="500.50116"
+         y="598.58398"
+         id="tspan5107">infected snail </tspan><tspan
+         sodipodi:role="line"
+         x="498.27264"
+         y="616.08398"
+         id="tspan5109">density</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+       d="m 561.2597,475.35571 -32.6183,59.61276"
+       id="path5111"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+       d="m 419.53882,480.97956 37.11737,57.36321"
+       id="path5113"
+       inkscape:connector-curvature="0" />
+    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.89999998;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect5479"
+       width="147.34473"
+       height="85.482437"
+       x="101.22921"
+       y="702.55908" />
+    <text
+       xml:space="preserve"
+       style="font-size:14px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="175.46396"
+       y="734.05255"
+       id="text5481"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5483"
+         x="177.69247"
+         y="734.05255">Region-level </tspan><tspan
+         sodipodi:role="line"
+         x="175.46396"
+         y="751.55255"
+         id="tspan5485">gamma richness</tspan><tspan
+         sodipodi:role="line"
+         x="175.46396"
+         y="769.05255"
+         id="tspan5487">of hosts</tspan></text>
+    <path
+       sodipodi:type="arc"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.89999998;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path5489"
+       sodipodi:cx="430.22412"
+       sodipodi:cy="790.29102"
+       sodipodi:rx="73.672363"
+       sodipodi:ry="64.111832"
+       d="m 503.89648,790.29102 c 0,35.40798 -32.98424,64.11183 -73.67236,64.11183 -40.68812,0 -73.67236,-28.70385 -73.67236,-64.11183 0,-35.40799 32.98424,-64.11184 73.67236,-64.11184 39.64918,0 72.18718,27.30737 73.62398,61.78857"
+       sodipodi:start="0"
+       sodipodi:end="6.2469397"
+       sodipodi:open="true" />
+    <text
+       xml:space="preserve"
+       style="font-size:14px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="431.91125"
+       y="785.79193"
+       id="text5491"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5493"
+         x="431.91125"
+         y="785.79193">Expected intensity</tspan><tspan
+         sodipodi:role="line"
+         x="431.91125"
+         y="803.29193"
+         id="tspan5495">of Rib in PSRE</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+       d="m 472.40296,655.31875 -23.62015,68.6109"
+       id="path5497"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+       d="m 247.44917,746.42503 109.10259,24.74492"
+       id="path5681"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+       d="m 502.77172,791.41579 58.48798,-1.12477"
+       id="path5865"
+       inkscape:connector-curvature="0" />
+    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.89999998;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3857-5"
+       width="139.47134"
+       height="76.484291"
+       x="562.38446"
+       y="758.79749" />
+    <flowRoot
+       transform="translate(-268.81974,530.89095)"
+       xml:space="preserve"
+       id="flowRoot3859-0"
+       style="font-size:14px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><flowRegion
+         id="flowRegion3861-2"><rect
+           id="rect3863-1"
+           width="112.4769"
+           height="46.115528"
+           x="846.95099"
+           y="245.90285" /></flowRegion><flowPara
+         id="flowPara3865-1">Raw frog</flowPara><flowPara
+         id="flowPara3869-0">infection data</flowPara></flowRoot>    <path
+       sodipodi:type="arc"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.89999998;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path6082"
+       sodipodi:cx="303.12524"
+       sodipodi:cy="956.75684"
+       sodipodi:rx="66.923752"
+       sodipodi:ry="58.487984"
+       d="m 370.049,956.75684 c 0,32.30202 -29.96279,58.48796 -66.92376,58.48796 -36.96096,0 -66.92375,-26.18594 -66.92375,-58.48796 0,-32.30203 29.96279,-58.48799 66.92375,-58.48799 36.0172,0 65.57462,24.91198 66.8798,56.36852"
+       sodipodi:start="0"
+       sodipodi:end="6.2469397"
+       sodipodi:open="true" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.89999998;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path6084"
+       sodipodi:cx="498.27264"
+       sodipodi:cy="960.1311"
+       sodipodi:rx="68.610909"
+       sodipodi:ry="59.612755"
+       d="m 566.88355,960.1311 c 0,32.92322 -30.71815,59.6128 -68.61091,59.6128 -37.89275,0 -68.6109,-26.68958 -68.6109,-59.6128 0,-32.92321 30.71815,-59.61275 68.6109,-59.61275 36.92519,0 67.22777,25.39106 68.56585,57.45253"
+       sodipodi:start="0"
+       sodipodi:end="6.2469397"
+       sodipodi:open="true" />
+    <text
+       xml:space="preserve"
+       style="font-size:14px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="298.06378"
+       y="948.88342"
+       id="text6086"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan6088"
+         x="298.06378"
+         y="948.88342">Site level</tspan><tspan
+         sodipodi:role="line"
+         x="298.06378"
+         y="966.38342"
+         id="tspan6090">random effect</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:14px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="498.27264"
+       y="950.00818"
+       id="text6092"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan6094"
+         x="498.27264"
+         y="950.00818">Year level</tspan><tspan
+         sodipodi:role="line"
+         x="498.27264"
+         y="967.50818"
+         id="tspan6096">random effect</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+       d="m 339.68022,906.14222 42.74122,-66.36137"
+       id="path6098"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+       d="M 480.27634,902.76791 454.40665,853.27808"
+       id="path6282"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+       d="m 429.47914,412.54846 c -81.12383,82.7145 -36.58526,124.07175 -36.58526,124.07175"
+       id="path6466"
+       inkscape:connector-curvature="0"
+       transform="translate(-0.25000882,197.93188)" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+       d="m 248.14351,517.53225 c 122.48108,-28.63194 141.56905,15.90664 141.56905,15.90664"
+       id="path6650"
+       inkscape:connector-curvature="0"
+       transform="translate(-0.25000882,197.93188)" />
+    <text
+       xml:space="preserve"
+       style="font-size:14px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="333.78934"
+       y="686.83221"
+       id="text6834"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan6836"
+         x="333.78934"
+         y="686.83221">(interaction</tspan></text>
+  </g>
+</svg>
