@@ -7,7 +7,6 @@ library(lme4)
 # load data
 pd <- read.csv("data/necropsy20122014_all_rib.csv")
 pd <- subset(pd, speciescode == "PSRE")
-pd <- pd[complete.cases(pd),]
 pd <- droplevels(pd)
 
 # load snail infection data
@@ -57,14 +56,16 @@ pd$sitename[pd$sitename == 'CA-SF41'] <- 'SF-41'
 pd$sitename[pd$sitename == 'MITTENS'] <- 'Mittens'
 pd$sitename[pd$sitename == 'OWLHENGE'] <- 'Owlhenge'
 
-setdiff(pd$sitename, snails$SiteName)
-intersect(pd$sitename, snails$SiteName)
+sort(setdiff(pd$sitename, snails$SiteName))
+sort(intersect(pd$sitename, snails$SiteName))
 
 pd <- subset(pd, sitename %in% snails$SiteName)
 pd <- droplevels(pd)
 snails <- subset(snails, SiteName %in% pd$sitename)
 snails <- droplevels(snails)
 
+snails$siteyear <- paste(snails$SiteName, snails$AssmtYear_1, sep='_')
+pd$siteyear <- paste(pd$sitename, pd$year, sep='_')
 
 setdiff(snails$siteyear, pd$siteyear)
 intersect(snails$siteyear, pd$siteyear)
