@@ -6,7 +6,7 @@ library(maps)
 library(scales)
 
 ## Define spatial neighbors -----------------------
-agg_dist <- 0
+agg_dist <- 3
 nbs <- dnearneigh(s_coord, d1 = 0, d2 = agg_dist, longlat = T)
 par(mfrow=c(1, 1))
 plot(nbs, coords=s_coord)
@@ -30,7 +30,9 @@ all(levels(snails$fsite) == levels(pd$fsite))
 snails$num_site <- as.numeric(snails$fsite)
 snails$region <- region[snails$num_site]
 
-snails$reg_rich <- NA
+snails$gamma_rich <- NA
+snails$mean_alpha <- NA
+snails$n_in_region <- NA
 for (i in 1:max(snails$region)){
   assmtyears <- unique(snails$AssmtYear_1[snails$region == i])
   if (length(assmtyears) == 0){
@@ -45,34 +47,41 @@ for (i in 1:max(snails$region)){
     }
     subd <- snails[indx, host_cols]
     seen_at_all <- apply(subd, 2, FUN=function(x) sum(x) > 0)
-    snails$reg_rich[indx] <- sum(seen_at_all)
+    snails$gamma_rich[indx] <- sum(seen_at_all)
+    snails$mean_alpha[indx] <- mean(apply(subd, 1, sum))
+    snails$n_in_region[indx] <- nrow(subd)
   }
 }
+
+ggplot(snails, aes(x=n_in_region, y=snails$gamma_rich)) + 
+  geom_jitter()
+ggplot(snails, aes(x=n_in_region, y=snails$mean_alpha)) + 
+  geom_jitter()
 
 # Add regional richness data from snails to pd ----------------------
 snails$reg_year <- paste(snails$region, snails$AssmtYear_1, sep='.')
 pd$helisoma_density <- snails$`HELI_ SW_1`[match(pd$fsite, snails$fsite)]
 pd$heli_rib_prevalence <- snails$HELIRIB_3[match(pd$fsite, snails$fsite)]
 pd$ISD <- pd$helisoma_density * pd$heli_rib_prevalence
-plot(jitter(snails$reg_rich), jitter(snails$local_rich))
+plot(jitter(snails$gamma_rich), jitter(snails$local_rich))
 pd$reg_year <- paste(pd$region, pd$year, sep='.')
-pd$reg_rich <- snails$reg_rich[match(pd$reg_year, snails$reg_year)]
-plot(jitter(pd$reg_rich), jitter(pd$local_rich))
+pd$gamma_rich <- snails$gamma_rich[match(pd$reg_year, snails$reg_year)]
+plot(jitter(pd$gamma_rich), jitter(pd$local_rich))
 
-pd <- pd[!is.na(pd$reg_rich), ]
+pd <- pd[!is.na(pd$gamma_rich), ]
 
 # Summarize Rib data by region & year ------------------------------
 library(plyr)
 summary_d <- ddply(pd, c("region", 'year'), 
                    summarise, 
                    rib_pres = as.numeric(any(rib > 0) | any(ISD > 0)),
-                   reg_rich = unique(reg_rich),
+                   gamma_rich = unique(gamma_rich),
                    mean_ISD = mean(ISD),
                    sd_ISD = sd(ISD),
-                   nsampled = length(site), 
+                   nsampled = length(unique(site)), 
                    mean_rib = mean(rib))
 summary_d
-plot(summary_d$nsampled, summary_d$reg_rich)
+plot(summary_d$nsampled, summary_d$gamma_rich)
 cc <- complete.cases(summary_d[c('mean_ISD', 'sd_ISD')])
 cor(summary_d$mean_ISD[cc], summary_d$sd_ISD[cc])
 summary_d$reg_year <- paste(summary_d$region, summary_d$year, sep='.')
@@ -143,7 +152,7 @@ stan_d <- list(n = nrow(pd),
                year = pd$year - min(pd$year) + 1,
                region = reg, 
                y = pd$rib, 
-               richness = pd$reg_rich, 
+               richness = pd$gamma_rich, 
                nsnail = nrow(snail_inf_df),
                y_snail = snail_inf_df$heli_infected, 
                k_snail = snail_inf_df$HELDISS3, 
@@ -173,9 +182,9 @@ watch <- c("eta_site",
            'beta_intxn', 
            'mu_den')
 
-m_init <- stan('R/isd.stan', data=stan_d, chains=1, iter=1, pars=watch)
+m_init <- stan('R/isd.stan', data=stan_d, chains=1, iter=10, pars=watch)
 m_fit <- stan(fit=m_init, data=stan_d, pars=watch, chains=3, 
-              iter=1000, cores=3, warmup = 400)
+              iter=500, cores=3)
 
 traceplot(m_fit, pars=watch, inc_warmup=T)
 waic(m_fit)
