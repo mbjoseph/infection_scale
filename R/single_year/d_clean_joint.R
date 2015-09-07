@@ -221,7 +221,7 @@ msnail <- melt(snail_infection,
                id.vars = c('fsite', 'DissectCode'), 
                measure.vars = c('ribprez'))
 
-snail_agg <- ddply(msnail, ~ fsite + variable, 
+snail_agg <- ddply(msnail, ~ fsite, 
                    summarize,
                    n_infected = sum(value), 
                    n_sampled = length(value))
@@ -239,3 +239,7 @@ all.equal(levels(factor(pd1$SiteCode)), levels(coord_d$fsite))
 coord_d$site <- as.numeric(coord_d$fsite)
 
 plot(coord_d$Lon, coord_d$Lat)
+
+snail_den <- ddply(subset(gd, Species == 'HELI'), 
+                   ~ Site + SeineCode, summarize,
+                   count = sum(Count))
