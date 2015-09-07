@@ -82,8 +82,9 @@ transformed parameters {
   p_site <- mu_p_site + p_siteR * sigma_p;
   
   for (i in 1:nsnail){
-    logit_p[i] <- mu_p + p_site[site_snail[i]];
+    logit_p[i] <- p_site[site_snail[i]];
   }
+  logit_p <- mu_p + logit_p;
     
   // snail density
   d_region <- d_regionR * sigma_d_region;
