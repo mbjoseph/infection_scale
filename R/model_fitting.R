@@ -70,6 +70,29 @@ plot(jitter(pd$gamma_rich), jitter(pd$local_rich))
 
 pd <- pd[!is.na(pd$gamma_rich), ]
 
+sum1 <- ddply(pd, ~ sitecode + Dissection + year, summarize, 
+              rib_pres = as.numeric(any(rib > 0) | any(ISD > 0)),
+              rib=rib, 
+              local_rich=local_rich, 
+              ISD=ISD)
+
+
+# notice difference between sites that have been subset to exclude rib nondetection
+library(effects)
+mod1 <- glmer(rib ~ local_rich * ISD + (1|Dissection) + (1|sitecode), 
+             data=sum1, family='poisson')
+summary(mod1)
+plot(allEffects(mod1))
+
+mod2 <- glmer(rib ~ local_rich * ISD + (1|Dissection) + (1|sitecode), 
+             data=droplevels(subset(sum1, rib_pres == 1)), family='poisson')
+summary(mod2)
+plot(allEffects(mod2))
+hist(pd$local_rich)
+hist(pd$ISD)
+
+summary(mod)
+
 # Summarize Rib data by region & year ------------------------------
 library(plyr)
 summary_d <- ddply(pd, c("region", 'year'), 
