@@ -224,7 +224,8 @@ msnail <- melt(snail_infection,
 snail_agg <- ddply(msnail, ~ fsite, 
                    summarize,
                    n_infected = sum(value), 
-                   n_sampled = length(value))
+                   n_sampled = length(value), 
+                   rib_in_snails = any(value > 0))
 
 # calculate observed local richness
 site_sum <- ddply(subset(gd, Species != 'HELI'), 
@@ -243,3 +244,10 @@ plot(coord_d$Lon, coord_d$Lat)
 snail_den <- ddply(subset(gd, Species == 'HELI'), 
                    ~ Site + SeineCode, summarize,
                    count = sum(Count))
+
+snail_agg$SiteCode <- as.character(snail_agg$fsite)
+hsum <- ddply(pd1, ~SiteCode, summarize, 
+              rib_pres = any(RIB > 0))
+site_summary <- cbind(snail_agg, hsum)
+site_summary
+rib_abs <- subset(site_summary, rib_in_snails == F & rib_pres == F)
