@@ -2,6 +2,7 @@
 rm(list=ls())
 library(readxl)
 library(ggplot2)
+library(plyr)
 library(dplyr)
 
 d <- read_excel("R/single_year/Re due Maxv2.xlsx")
@@ -101,8 +102,9 @@ for (i in unique(combined_sweep_d$Sppcode)){
   sd[i] <- subd
 }
 
-gd <- gather(sd, Species, Count, 
+gd <- gather(sd, Species, Count,
              which(names(sd) %in% levels(combined_sweep_d$Sppcode)))
+gd$Site <- factor(levels(sd$Site)[gd$Site])
 gd$site <- as.character(gd$Site)
 
 # keep only sites with host AND parasite data
@@ -247,7 +249,7 @@ snail_den <- ddply(subset(gd, Species == 'HELI'),
 
 snail_agg$SiteCode <- as.character(snail_agg$fsite)
 hsum <- ddply(pd1, ~SiteCode, summarize, 
-              rib_pres = any(RIB > 0))
+              rib_pres_in_frogs = any(RIB > 0))
 site_summary <- cbind(snail_agg, hsum)
 site_summary
-rib_abs <- subset(site_summary, rib_in_snails == F & rib_pres == F)
+rib_abs <- subset(site_summary, rib_in_snails == F & rib_pres_in_frogs == F)
