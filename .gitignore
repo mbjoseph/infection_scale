@@ -14,3 +14,4 @@ data/*
 variance_decomp.pdf
 local_regional.pdf
 nbs.pdf
+.RData
