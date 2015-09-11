@@ -2,7 +2,7 @@
 source('R/single_year/d_clean_joint.R')
 source('R/helpers.R')
 
-rib_pres <- FALSE
+rib_pres <- FALSE # set to true if restricting analysis to only rib present sites
 if (rib_pres){
   keep <- keep[!keep %in% unique(rib_abs$SiteCode)]
   gd <- droplevels(subset(gd, site %in% keep))
@@ -68,13 +68,25 @@ rstan::traceplot(m_fit, inc_warmup=F)
 
 library(ggmcmc)
 ggd <- ggs(m_fit)
-ggs_caterpillar(ggd, 'alpha_s\\.')
-ggs_caterpillar(ggd, 'alpha_sd')
-ggs_caterpillar(ggd, 'isd\\.')
-ggs_caterpillar(ggd, 'alpha_a\\.')
+ggs_caterpillar(ggd, 'alpha_s\\.') + 
+  ggtitle('Site level random effects: snail infection probability')
+ggs_caterpillar(ggd, 'alpha_sd') + 
+  ggtitle('Site level random effects: snail density')
+ggs_caterpillar(ggd, 'isd\\.') + 
+  ggtitle('Site level random effects: infected snail density')
+ggs_caterpillar(ggd, 'alpha_a\\.') + 
+  ggtitle('Site level random effects: amphibian infection intensity')
 
 # plot response surface
 post <- rstan::extract(m_fit)
+
+par(mfrow=c(1, 1))
+plot(post$alpha_sd, post$alpha_s, col=alpha(1, .3), 
+     xlab=expression(paste(alpha, " snail density")), 
+     ylab=expression(paste(alpha, " snail infection")))
+points(apply(post$alpha_sd, 2, median), apply(post$alpha_s, 2, median), 
+       col='red', cex=2)
+
 isdm <- apply(post$isd, 2, median)
 rich_vals <- min(stan_d$rich):max(stan_d$rich)
 d <- expand.grid(richness = rich_vals, 
@@ -118,8 +130,19 @@ ggplot(d, aes(x=isd)) +
   geom_ribbon(aes(ymin = q25, ymax=q75), alpha=.5) + 
   geom_line(aes(y=mu, group=richness), size=2) +
   geom_rug(data=site_sum) + 
-  theme_bw()
+  theme_bw() + 
+  xlab('Infected snail density') + 
+  ylab('Expected Rib infection intensity in PSRE')
 
 ggplot(isd_d, aes(x=logisd, group=site)) + geom_density() +
-  facet_wrap(~richness) 
+  facet_wrap(~richness)
   
+site_med <- apply(post$alpha_a, 2, median)
+site_hdi <- apply(post$alpha_a, 2, HDI)
+coord_d$site_med <- site_med
+
+ggplot(coord_d, aes(x=Lon, y=Lat)) + 
+  geom_point(shape=1, size=6) + 
+  geom_point(aes(color=site_med), size=5) + 
+  theme_bw() + 
+  scale_color_gradient2()
