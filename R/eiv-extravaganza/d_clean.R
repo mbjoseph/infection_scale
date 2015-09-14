@@ -10,6 +10,7 @@ library(tidyr)
 snail_inf <- read_excel('data/CA_Master_20122014v7_snails.xlsx')
 snail_inf <- snail_inf[complete.cases(snail_inf[
   c('HELIRIB_3', "HELI_ SW_1", 'HELDISS3')]), ]
+snail_inf <- snail_inf[-6]
 
 # load snail density data
 snail_den <- read.csv('data/snail_d.csv')
@@ -110,3 +111,31 @@ keep <- intersect(snail_den$siteyear, snail_inf$siteyear)
 snail_den <- subset(snail_den, siteyear %in% keep)
 snail_inf <- subset(snail_inf, siteyear %in% keep)
 
+# what is the relationship (if any) between snail density and prevalence?
+den_summary <- snail_den %>%
+  group_by(siteyear) %>%
+  summarize(mean_den = mean(count), 
+            sd_den = sd(count))
+den_summary$prevalence <- snail_inf$HELIRIB_3[
+  match(den_summary$siteyear, snail_inf$siteyear)]
+
+ggplot(den_summary, aes(x=log(1+mean_den), y=prevalence)) + 
+  geom_point() + 
+  geom_smooth()
+
+# convert sites to factors
+snail_inf$SiteCode_1[snail_inf$SiteCode_1 == 'SF-DAM'] <- 'SFDAM'
+snail_den$fsite <- factor(snail_den$site)
+snail_inf$fsite <- factor(snail_inf$SiteCode_1)
+all(levels(snail_den$fsite) == levels(snail_inf$fsite))
+
+# calculate number of infected helisoma
+snail_inf$n_infected <- snail_inf$HELDISS3 * snail_inf$HELIRIB_3
+
+# create a variable to represent whether Rib seen in snails at each site
+seen <- snail_inf %>%
+  group_by(fsite) %>%
+  summarize(seen = any(n_infected > 0))
+
+# need snail infection data to be sorted by site
+snail_inf <- snail_inf[order(snail_inf$fsite), ]
