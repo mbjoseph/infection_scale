@@ -31,17 +31,33 @@ alpha_inf <- apply(post$alpha_inf, 2,
         hdi <- HDI(x)
         c(hdi[1], median(x), hdi[2])
       })
-alpha_inf <- data.frame(t(plogis(alpha_inf)))
-names(alpha_inf) <- c('lo', 'med', 'hi')
-ord <- order(alpha_inf$med)
-par(mfrow=c(1, 1))
-plot(x=alpha_inf$med[ord], y=1:nrow(alpha_inf), xlim=c(0, 1))
-segments(x0=alpha_inf$lo[ord], x1=alpha_inf$hi[ord], 
-         y0=1:nrow(alpha_inf), y1=1:nrow(alpha_inf))
+Palpha_inf <- data.frame(t(plogis(alpha_inf)))
+alpha_inf <- data.frame(t(alpha_inf))
 
-plot(stan_d$n_shed, y=alpha_inf$med, ylim=c(0, 1), 
+names(alpha_inf) <- c('lo', 'med', 'hi')
+names(Palpha_inf) <- c('lo', 'med', 'hi')
+ord <- order(Palpha_inf$med)
+par(mfrow=c(1, 1))
+plot(x=Palpha_inf$med[ord], y=1:nrow(Palpha_inf), xlim=c(0, 1))
+segments(x0=Palpha_inf$lo[ord], x1=Palpha_inf$hi[ord], 
+         y0=1:nrow(Palpha_inf), y1=1:nrow(Palpha_inf))
+
+plot(stan_d$n_shed, y=Palpha_inf$med, ylim=c(0, 1), 
      xlab='Number of snails shed', 
      ylab='Posterior probability of infection')
-segments(y0=alpha_inf$lo, y1=alpha_inf$hi, 
+segments(y0=Palpha_inf$lo, y1=Palpha_inf$hi, 
          x0=stan_d$n_shed, x1=stan_d$n_shed)
 
+alpha_sw <- apply(post$alpha_sw, 2, 
+                   function(x){
+                     hdi <- HDI(x)
+                     c(hdi[1], median(x), hdi[2])
+                   })
+alpha_sw <- data.frame(t(alpha_sw))
+names(alpha_sw) <- c('lo', 'med', 'hi')
+
+plot(alpha_sw$med, alpha_inf$med, ylim=c(-12, 2), xlim=c(-4, 5))
+segments(y0=alpha_inf$lo, y1=alpha_inf$hi, 
+         x0=alpha_sw$med, x1=alpha_sw$med)
+segments(x0=alpha_sw$lo, x1=alpha_sw$hi, 
+         y0=alpha_inf$med, y1=alpha_inf$med)
