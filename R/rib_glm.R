@@ -1,10 +1,10 @@
 # Cleaning the parasite infection data, and
-# defining spatial neighbors
 source('R/d_clean.R')
 
 # unaggregated effect of local richness on rib pr(presence)
-summary_d <- ddply(pd, ~ siteyear, summarize, 
-                   rib_pres = as.numeric(any(rib > 0)), 
+summary_d <- pd %>%
+  group_by(siteyear) %>%
+  summarize(rib_pres = as.numeric(any(rib > 0)), 
                    local_rich = unique(local_rich), 
                    site = unique(site), 
                    year = unique(year))

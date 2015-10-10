@@ -84,7 +84,7 @@ coord_d <- subset(snails, !duplicated(snails$fsite),
                   c('fsite', 'Longitude_1', 'Latitude_1'))
 coord_d <- coord_d[order(coord_d$fsite), ]
 names(coord_d) <- c('site', 'Lon', 'Lat')
-plot(coord_d$Lon, coord_d$Lat)
+#plot(coord_d$Lon, coord_d$Lat)
 
 # define neighborhoods
 library(spdep)
