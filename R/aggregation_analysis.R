@@ -3,8 +3,8 @@
 source('R/d_clean.R')
 
 # d2 is km distance
-nseq <- 30
-dseq <- seq(0, 5, length.out=nseq)
+nseq <- 10
+dseq <- seq(.5, 1.2, length.out=nseq)
 logistic_res <- array(dim=c(nseq, 3, 3))
 
 pois_res <- array(dim=c(nseq, 4, 3))
@@ -13,11 +13,11 @@ rho_isd <- rep(NA, nseq)
 for (s in 1:nseq){
   nbs <- dnearneigh(s_coord, d1=0, d2=dseq[s], longlat=T)
   par(mfrow=c(1, 1))
-  plot(nbs, coords=s_coord)
+  #plot(nbs, coords=s_coord)
   (neighborhoods <- n.comp.nb(nbs))
   num_neigh <- neighborhoods$nc
   coord_d$nbhood <- neighborhoods$comp.id
-  plot(coord_d$Lon, coord_d$Lat, col=coord_d$nbhood)
+  #plot(coord_d$Lon, coord_d$Lat, col=coord_d$nbhood)
   
   all(levels(pd$fsite) == levels(coord_d$site))
   pd$numsite <- as.numeric(pd$fsite)
@@ -59,10 +59,10 @@ for (s in 1:nseq){
   pd$helisoma_density <- snails$`HELI_ SW_1`[match(pd$fsite, snails$fsite)]
   pd$heli_rib_prevalence <- snails$HELIRIB_3[match(pd$fsite, snails$fsite)]
   pd$ISD <- pd$helisoma_density * pd$heli_rib_prevalence
-  plot(jitter(snails$reg_rich), jitter(snails$local_rich))
+  #plot(jitter(snails$reg_rich), jitter(snails$local_rich))
   pd$reg_year <- paste(pd$region, pd$year, sep='.')
   pd$reg_rich <- snails$reg_rich[match(pd$reg_year, snails$reg_year)]
-  plot(jitter(pd$reg_rich), jitter(pd$local_rich))
+  #plot(jitter(pd$reg_rich), jitter(pd$local_rich))
 
   pd <- pd[!is.na(pd$reg_rich), ]
   
@@ -135,19 +135,25 @@ plot_res(logistic_res[1:9, , ], 'nsampled', dseq[1:9],
          ylab='Effect of number of sites in region on occurrence')
 
 par(mfrow=c(1, 3))
-plot_res(pois_res, 'reg_rich', dseq, ylab='Effect of regional richness')
-plot_res(pois_res, 'mean_ISD', dseq, ylab='Effect of mean infected snail density')
-plot_res(pois_res, "reg_rich:mean_ISD", dseq, ylab='Intxn: regional richness and mean ISD')
+#plot_res(pois_res, 'reg_rich', dseq, ylab='Effect of regional richness')
+#plot_res(pois_res, 'mean_ISD', dseq, ylab='Effect of mean infected snail density')
+#plot_res(pois_res, "reg_rich:mean_ISD", dseq, ylab='Intxn: regional richness and mean ISD')
 
 par(mfrow=c(1, 1))
 par(mar=c(5, 4.4, 4, 2) + 0.1)
-plot(dseq, rho_isd, xlab="Distance of aggregation", 
-     ylab=expression(
-       paste("Correlation between ", hat(mu[ISD]), " and ", hat(sigma[ISD]))
-       )
-     )
+#plot(dseq, rho_isd, xlab="Distance of aggregation", 
+#     ylab=expression(
+#       paste("Correlation between ", hat(mu[ISD]), " and ", hat(sigma[ISD]))
+#       )
+#     )
 
 mod3 <- glmer(rib ~ local_rich * ISD + 
                 (1|fsite) + (1|year) + (1|Dissection), 
-              data=pd, family='poisson')
-summary(mod3)
+              data=subset(pd, rib_occ==1), family='poisson')
+
+
+mod4 <- glmer(rib ~ local_rich + ISD + 
+                (1|fsite) + (1|year) + (1|Dissection), 
+              data=subset(pd, rib_occ==1), family='poisson')
+
+#summary(mod3)
