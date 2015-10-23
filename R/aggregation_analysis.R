@@ -1,15 +1,15 @@
 # Cleaning the parasite infection data, and
 # defining spatial neighbors
 source('R/d_clean.R')
-
+library(effects)
 # d2 is km distance
 nseq <- 10
-dseq <- seq(.5, 1.2, length.out=nseq)
+dseq <- seq(.2, 1.5, length.out=nseq)
 logistic_res <- array(dim=c(nseq, 3, 3))
 
 pois_res <- array(dim=c(nseq, 4, 3))
 rho_isd <- rep(NA, nseq)
-
+effplots <- list()
 for (s in 1:nseq){
   nbs <- dnearneigh(s_coord, d1=0, d2=dseq[s], longlat=T)
   par(mfrow=c(1, 1))
@@ -106,11 +106,13 @@ for (s in 1:nseq){
   pd$fsiteyear <- paste(pd$fsite, pd$year, sep='.')
   pd$rib_occ <- rib_occ$rib_occ[match(pd$fsiteyear, rib_occ$fsiteyear)]
 
-  mod2 <- glmer(rib ~ reg_rich * mean_ISD + 
-                  (1|fsite) + (1|year) + (1|Dissection), 
+  
+  mod2 <- glmer(rib ~ reg_rich*mean_ISD + #year +
+                  (1|fsite),# + (1|Dissection), 
              data=subset(pd, rib_occ==1), family='poisson')
+  effplots[[s]] <- allEffects(mod2)
   pois_res[s, , 1] <- fixef(mod2)
-  pois_res[s, , 2:3] <- confint(mod2, method='Wald')
+  pois_res[s, , 2:3] <- confint(mod2, method='Wald')[-1, ]
   
   if (s == nseq){
     colnames(logistic_res) <- names(coef(mod))
@@ -121,7 +123,7 @@ for (s in 1:nseq){
 plot_res <- function(res, param, dseq, ...){
   plot(dseq, res[, param, 1], type='b', 
        ylim=range(res[, param, ], na.rm=TRUE), 
-       xlab='Distance of aggregation (km)', ...)
+       xlab='Aggregation distance', ...)
   lines(dseq, res[, param, 2], lty=2)
   lines(dseq, res[, param, 3], lty=2)
   abline(h=0, lty=3)
@@ -148,7 +150,7 @@ par(mar=c(5, 4.4, 4, 2) + 0.1)
 #     )
 
 mod3 <- glmer(rib ~ local_rich * ISD + 
-                (1|fsite) + (1|year) + (1|Dissection), 
+                (1|fsite) + (1|year), 
               data=subset(pd, rib_occ==1), family='poisson')
 
 
